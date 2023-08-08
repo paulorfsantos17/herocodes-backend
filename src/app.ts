@@ -13,7 +13,7 @@ class App {
   }
 
   interceptionError() {
-    // this.app.use()
+    this.app.use()
   }
 
   inicializeRoutes() {
