@@ -5,7 +5,7 @@ import { EventRoutes } from './routes/EventRoutes'
 
 class App {
   public app: Application
-  private eventRoutes =  new EventRoutes()
+  private eventRoutes = new EventRoutes()
 
   constructor() {
     this.app = express()
@@ -22,10 +22,10 @@ class App {
   inicializeRoutes() {
     this.app.use('/events', this.eventRoutes.router)
   }
-  
+
   middlewaresInicialize() {
     this.app.use(express.json())
-    this.app.use(express.urlencoded({extended:true}))
+    this.app.use(express.urlencoded({ extended: true }))
   }
 
   listen() {
@@ -33,4 +33,4 @@ class App {
   }
 }
 
-export {App}
+export { App }
