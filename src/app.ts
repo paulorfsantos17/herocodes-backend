@@ -1,9 +1,11 @@
 import express, { Application } from 'express'
 import { connect } from './infra/database'
 import { ErrorMiddleware } from './middlewares/error.middleware'
+import { EventRoutes } from './routes/EventRoutes'
 
 class App {
   public app: Application
+  private eventRoutes =  new EventRoutes()
 
   constructor() {
     this.app = express()
@@ -18,7 +20,7 @@ class App {
   }
 
   inicializeRoutes() {
-    // this.app.use('/')
+    this.app.use('/events', this.eventRoutes.router)
   }
   
   middlewaresInicialize() {

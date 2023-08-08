@@ -9,6 +9,4 @@ class HttpException extends Error {
   }
 }
 
-export {
-  HttpException
-}
+export { HttpException }
