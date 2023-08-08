@@ -1,5 +1,6 @@
 import express, { Application } from 'express'
 import { connect } from './infra/database'
+import { ErrorMiddleware } from './middlewares/error.middleware'
 
 class App {
   public app: Application
@@ -13,7 +14,7 @@ class App {
   }
 
   interceptionError() {
-    this.app.use()
+    this.app.use(ErrorMiddleware)
   }
 
   inicializeRoutes() {
