@@ -1,8 +1,10 @@
 import { Price } from './Price'
 import { User } from './User'
+import { Location } from './Location'
 
 class Event {
   public title: string
+  public flyers: string[]
   public date: Date
   public description: string
   public banner: string
@@ -22,6 +24,7 @@ class Event {
     price: Price[],
     location: Location,
     city: string,
+    flyers: string[],
   ) {
     this.title = title
     this.banner = banner
@@ -32,6 +35,7 @@ class Event {
     this.price = price
     this.location = location
     this.city = city
+    this.flyers = flyers
   }
 }
 
