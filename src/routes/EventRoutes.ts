@@ -28,6 +28,14 @@ class EventRoutes {
           name: 'flyers',
           maxCount: 3,
         },
+        this.router.get(
+          '/',
+          this.eventController.findEventBylocation.bind(this.eventController),
+        ),
+        this.router.get(
+          '/category/:category',
+          this.eventController.findEventsByCategory.bind(this.eventController),
+        ),
       ]),
       this.eventController.create.bind(this.eventController),
     )
