@@ -3,6 +3,7 @@ import { Event } from '../entities/Event'
 import { HttpException } from '../interfaces/httpException'
 import axios from 'axios'
 import { AddressGoogleType } from '../interfaces/AddressGoogleType'
+import { UserRepositoryMongoose } from '../repositories/UserRepositoryMongoose'
 
 class EventUseCase {
   private eventRepository: EventRepository
@@ -60,6 +61,48 @@ class EventUseCase {
     if (!category) throw new HttpException(400, 'Caterogy is required')
     const events = await this.eventRepository.getEventsByCategory(category)
     return events
+  }
+
+  async findEventsByName(name: string) {
+    if (!name) throw new HttpException(400, 'Name is required')
+    const events = await this.eventRepository.getEventsByName(String(name))
+    return events
+  }
+
+  async findEventById(id: string) {
+    if (!id) throw new HttpException(400, 'Id is required')
+    const events = await this.eventRepository.getEventById(String(id))
+    return events
+  }
+
+  async addParticipant(id: string, name: string, email: string) {
+    const event = await this.eventRepository.getEventById(id)
+    if (!event) throw new HttpException(400, 'Event not found.')
+
+    const userRepostiorio = new UserRepositoryMongoose()
+    const participant = {
+      name,
+      email,
+    }
+
+    let user: any = {}
+
+    const verifyIsUserExists = await userRepostiorio.verifyIsUserExits(email)
+
+    if (!verifyIsUserExists) {
+      user = await userRepostiorio.add(participant)
+    } else {
+      user = verifyIsUserExists
+    }
+
+    if (event.participants.includes(user._id))
+      throw new HttpException(400, 'User Already exists')
+
+    event.participants.push(user._id)
+
+    await this.eventRepository.update(event, id)
+
+    return event
   }
 
   private async getCityNameByCoordinates(latitude: string, longitude: string) {

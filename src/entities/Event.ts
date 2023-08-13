@@ -13,6 +13,7 @@ class Event {
   public price: Price[]
   public location: Location
   public city: string
+  public categories: string[]
 
   constructor(
     title: string,
@@ -25,6 +26,7 @@ class Event {
     location: Location,
     city: string,
     flyers: string[],
+    categories: string[],
   ) {
     this.title = title
     this.banner = banner
@@ -36,6 +38,7 @@ class Event {
     this.location = location
     this.city = city
     this.flyers = flyers
+    this.categories = categories
   }
 }
 

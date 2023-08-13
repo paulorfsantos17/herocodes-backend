@@ -44,6 +44,44 @@ class EventController {
     }
   }
 
+  async findEventById(req: Request, res: Response, next: NextFunction) {
+    const { id } = req.params
+
+    try {
+      const event = await this.eventUsecase.findEventById(String(id))
+
+      return res.status(200).json(event)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async addParticipant(req: Request, res: Response, next: NextFunction) {
+    const { id } = req.params
+
+    const { name, email } = req.body
+
+    try {
+      const event = await this.eventUsecase.addParticipant(id, name, email)
+
+      return res.status(200).json(event)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async findEventsByName(req: Request, res: Response, next: NextFunction) {
+    const { name } = req.query
+
+    try {
+      const events = await this.eventUsecase.findEventsByName(String(name))
+
+      return res.status(200).json(events)
+    } catch (error) {
+      next(error)
+    }
+  }
+
   async findEventsByCategory(req: Request, res: Response, next: NextFunction) {
     const { category } = req.params
 
