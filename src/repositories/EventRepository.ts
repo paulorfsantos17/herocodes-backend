@@ -1,6 +1,5 @@
 import { Event } from '../entities/Event'
 import { Location } from '../entities/Location'
-import { User } from '../entities/User'
 
 interface EventRepository {
   add(event: Event): Promise<Event>
@@ -18,6 +17,13 @@ interface EventRepository {
   getEventById(id: string): Promise<Event | undefined>
 
   update(event: Event, id: string): Promise<any>
+  getEventsMain(date: Date): Promise<Event[]>
+  findEventByFilter(
+    category?: string,
+    name?: string,
+    date?: Date,
+    price?: string,
+  ): Promise<Event[]>
 }
 
 export { EventRepository }

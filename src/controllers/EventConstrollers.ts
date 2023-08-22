@@ -82,12 +82,43 @@ class EventController {
     }
   }
 
+  async findMainEvents(req: Request, res: Response, next: NextFunction) {
+    try {
+      const events = await this.eventUsecase.findEventsMain()
+
+      return res.status(200).json(events)
+    } catch (error) {
+      next(error)
+    }
+  }
+
   async findEventsByCategory(req: Request, res: Response, next: NextFunction) {
     const { category } = req.params
 
     try {
       const events = await this.eventUsecase.findEventsByCategory(
         String(category),
+      )
+
+      return res.status(200).json(events)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async filterEvents(req: Request, res: Response, next: NextFunction) {
+    const { category, latitude, longitude, name, date, price, radius } =
+      req.query
+
+    try {
+      const events = await this.eventUsecase.filterEvents(
+        String(category),
+        Number(latitude),
+        Number(longitude),
+        String(name),
+        String(date),
+        String(price),
+        String(radius),
       )
 
       return res.status(200).json(events)

@@ -6,7 +6,7 @@ const pathFile = path.resolve(__dirname, '..', 'tmp', 'uploads')
 
 const upload = multer({
   dest: pathFile,
-  limits: { fileSize: 1024 + 1024 * 2 },
+  limits: { fileSize: 1048576 },
   storage: multer.diskStorage({
     destination(req, file, callback) {
       callback(null, pathFile)

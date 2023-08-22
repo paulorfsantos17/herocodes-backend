@@ -29,19 +29,20 @@ class EventUseCase {
       eventData.location.longitude,
     )
 
-    eventData = {
+    const eventDateUpdate = {
       ...eventData,
-      city: nameCity,
+      city: nameCity.city,
+      formattedAddress: nameCity.formattedAddress,
     }
 
-    const result = await this.eventRepository.add(eventData)
+    const result = await this.eventRepository.add(eventDateUpdate)
     return result
   }
 
   async findEventByLocation(latitude: string, longitude: string) {
     const cityName = await this.getCityNameByCoordinates(latitude, longitude)
     const findEventsByCity = await this.eventRepository.findEventsByCity(
-      cityName,
+      cityName.city,
     )
 
     const eventWithRadius = findEventsByCity.filter((event: Event) => {
@@ -60,6 +61,29 @@ class EventUseCase {
   async findEventsByCategory(category: string) {
     if (!category) throw new HttpException(400, 'Caterogy is required')
     const events = await this.eventRepository.getEventsByCategory(category)
+    return events
+  }
+
+  async filterEvents(
+    category: string,
+    latitude: number,
+    longitude: number,
+    name: string,
+    date: string,
+    price: string,
+    radius: string,
+  ) {
+    const events = await this.eventRepository.findEventByFilter(
+      category,
+      name,
+      new Date(date),
+      price,
+    )
+    return events
+  }
+
+  async findEventsMain() {
+    const events = await this.eventRepository.getEventsMain(new Date())
     return events
   }
 
@@ -91,6 +115,8 @@ class EventUseCase {
 
     if (!verifyIsUserExists) {
       user = await userRepostiorio.add(participant)
+      user = await userRepostiorio.verifyIsUserExits(email)
+      console.log(user)
     } else {
       user = verifyIsUserExists
     }
@@ -120,8 +146,12 @@ class EventUseCase {
         )
 
         const city = cityType.long_name
+        const formattedAddress = response.data.results[0].formatted_address
 
-        return city
+        return {
+          city,
+          formattedAddress,
+        }
       }
 
       throw new HttpException(400, 'Not found City')

@@ -17,7 +17,6 @@ describe('Event test', () => {
       .post('/events/')
       .field('title', event.title)
       .field('description', event.description)
-      .field('city', event.city)
       .field('coupons', event.coupons)
       .field('categories', event.categories)
       .field('location[latitude]', event.location.latitude)
@@ -43,7 +42,7 @@ describe('Event test', () => {
   })
   it('/POST Event insert participant', async () => {
     const response = await request(express)
-      .post('/events/64d941a148c1308ca707f0c6/participants')
+      .post('/events/64e3f1f90417511ae28da327/participants')
       .send({
         name: 'Paulo',
         email: crypto.randomBytes(10).toString('hex') + '@teste.com',
@@ -57,7 +56,7 @@ describe('Event test', () => {
   })
   it('/GET/:Id Event by id', async () => {
     const response = await request(express).get(
-      '/events/64d941a148c1308ca707f0c6',
+      '/events/64e3f1f90417511ae28da327',
     )
 
     if (response.error) {
@@ -124,7 +123,7 @@ describe('Unit Test', () => {
   })
   it('sholud return an array of events by name', async () => {
     eventRepository.getEventsByName.mockResolvedValue([event])
-    const result = await eventUseCaseMock.findEventsByName('Jorge e Mateus')
+    const result = await eventUseCaseMock.findEventsByName('Jorge')
 
     expect(result).toEqual([event])
     expect(eventRepository.getEventsByName).toHaveBeenCalledWith(

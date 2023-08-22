@@ -22,6 +22,7 @@ class UserRepositoryMongoose implements UserRepository {
 
   async verifyIsUserExits(email: string): Promise<User | undefined> {
     const result = await UserModel.findOne({ email }).exec()
+
     return result?.toObject() || undefined
   }
 }

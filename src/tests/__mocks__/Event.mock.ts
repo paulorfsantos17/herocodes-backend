@@ -5,15 +5,16 @@ const eventMock: Event = {
   price: [{ sector: 'Pista', amount: '20' }],
   categories: ['Show', 'Privado'],
   description: 'Evento descrição',
-  city: 'Belo Horizonte',
+  city: '',
   location: {
     latitude: '-19.8658659',
     longitude: '-43.9737064',
   },
+  formattedAddress: '',
   coupons: [],
   date: new Date(),
   participants: [],
-  flyers: ['/mnt/c/Users/Paulo/Downloads/codigo(14).png'],
-  banner: '/mnt/c/Users/Paulo/Downloads/codigo(14).png',
+  flyers: ['/mnt/c/Users/Paulo/Downloads/banner.jpg'],
+  banner: '/mnt/c/Users/Paulo/Downloads/banner.jpg',
 }
 export { eventMock }

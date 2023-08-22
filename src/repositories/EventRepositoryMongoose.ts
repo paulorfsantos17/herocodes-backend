@@ -22,6 +22,7 @@ const eventSchema = new mongoose.Schema({
   price: {
     type: Array,
   },
+  formattedAddress: String,
   city: String,
   participants: {
     type: Array,
@@ -77,10 +78,43 @@ class EventRepositoryMongose implements EventRepository {
     return findEvent?.toObject() || undefined
   }
 
-  update(event: Event, id: string): Promise<any> {
-    const eventUpdate = EventModel.findByIdAndUpdate(id, event)
+  async update(event: Event, id: string): Promise<any> {
+    const eventUpdate = await EventModel.findByIdAndUpdate(id, event)
 
     return eventUpdate
+  }
+
+  async getEventsMain(date: Date): Promise<Event[]> {
+    const endDate = new Date(date)
+    endDate.setMonth(endDate.getMonth() + 1)
+    date.setMonth(date.getMonth() - 1)
+    const eventsMain = await EventModel.find({
+      date: { $gte: date, $lt: endDate },
+    })
+      .limit(4)
+      .exec()
+    console.log(
+      '🚀 ~ file: EventRepositoryMongoose.ts:95 ~ EventRepositoryMongose ~ getEventsMain ~ eventsMain:',
+      eventsMain,
+    )
+
+    return eventsMain.map((event) => event.toObject())
+  }
+
+  async findEventByFilter(
+    category?: string,
+    name?: string,
+    date?: Date,
+    price?: string,
+  ): Promise<Event[]> {
+    const findEvents = await EventModel.find({
+      title: {
+        $regex: name,
+        $options: 'i',
+      },
+    }).exec()
+
+    return findEvents.map((event) => event.toObject())
   }
 }
 
