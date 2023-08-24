@@ -1,7 +1,7 @@
-import { EventRepository } from '../../repositories/EventRepository'
+// import { EventRepository } from '../../repositories/EventRepository'
 import { EventUseCase } from '../../useCases/EventUseCase'
 
-const eventRepository: EventRepository = {
+const eventRepository = {
   add: jest.fn(),
   getEventsByCategory: jest.fn(),
   getEventsByName: jest.fn(),

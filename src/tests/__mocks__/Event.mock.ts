@@ -7,8 +7,8 @@ const eventMock: Event = {
   description: 'Evento descrição',
   city: '',
   location: {
-    latitude: '-19.8658659',
-    longitude: '-43.9737064',
+    latitude: '-22.35838',
+    longitude: '-45.784125',
   },
   formattedAddress: '',
   coupons: [],
@@ -16,5 +16,6 @@ const eventMock: Event = {
   participants: [],
   flyers: ['/mnt/c/Users/Paulo/Downloads/banner.jpg'],
   banner: '/mnt/c/Users/Paulo/Downloads/banner.jpg',
+  map: '/mnt/c/Users/Paulo/Downloads/banner.jpg',
 }
 export { eventMock }

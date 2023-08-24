@@ -28,6 +28,10 @@ class EventRoutes {
           name: 'flyers',
           maxCount: 3,
         },
+        {
+          name: 'map',
+          maxCount: 1,
+        },
       ]),
       this.eventController.create.bind(this.eventController),
     )

@@ -11,15 +11,21 @@ class EventController {
 
   async create(req: Request, res: Response, next: NextFunction) {
     let eventData: Event = req.body
+    const categoriesBody = eventData.categories
+    const categories = String(categoriesBody).split(',')
+
     if (req.files) {
       const files = req.files as any
       const banner: FilesMulter = files.banner[0]
       const flyers: FilesMulter[] = files.flyers
+      const map: FilesMulter = files.map[0]
 
       eventData = {
         ...eventData,
         banner: banner.filename,
         flyers: flyers.map((flyer: FilesMulter) => flyer.filename),
+        map: map.filename,
+        categories,
       }
     }
 
@@ -111,15 +117,15 @@ class EventController {
       req.query
 
     try {
-      const events = await this.eventUsecase.filterEvents(
-        String(category),
-        Number(latitude),
-        Number(longitude),
-        String(name),
-        String(date),
-        String(price),
-        String(radius),
-      )
+      const events = await this.eventUsecase.filterEvents({
+        category: String(category),
+        latitude: Number(latitude),
+        longitude: Number(longitude),
+        name: String(name),
+        date: String(date),
+        price: String(price),
+        radius: String(radius),
+      })
 
       return res.status(200).json(events)
     } catch (error) {

@@ -25,6 +25,7 @@ describe('Event test', () => {
       .field('price[sector]', event.price[0].sector)
       .field('price[amount]', event.price[0].amount)
       .attach('banner', event.banner)
+      .attach('map', event.map)
       .attach('flyers', event.flyers[0])
 
     if (response.error) {
@@ -42,7 +43,7 @@ describe('Event test', () => {
   })
   it('/POST Event insert participant', async () => {
     const response = await request(express)
-      .post('/events/64e3f1f90417511ae28da327/participants')
+      .post('/events/64e7d00e97abfa551d6f9117/participants')
       .send({
         name: 'Paulo',
         email: crypto.randomBytes(10).toString('hex') + '@teste.com',
@@ -87,7 +88,7 @@ describe('Event test', () => {
   })
   it('/GET Event by location', async () => {
     const response = await request(express).get(
-      '/events?latitude=-19.8658659&longitude=-43.9737064',
+      '/events?latitude=-22.357118&longitude=-45.7811255',
     )
 
     if (response.error) {
@@ -123,7 +124,7 @@ describe('Unit Test', () => {
   })
   it('sholud return an array of events by name', async () => {
     eventRepository.getEventsByName.mockResolvedValue([event])
-    const result = await eventUseCaseMock.findEventsByName('Jorge')
+    const result = await eventUseCaseMock.findEventsByName('Jorge e Mateus')
 
     expect(result).toEqual([event])
     expect(eventRepository.getEventsByName).toHaveBeenCalledWith(

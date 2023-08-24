@@ -4,6 +4,7 @@ import { HttpException } from '../interfaces/httpException'
 import axios from 'axios'
 import { AddressGoogleType } from '../interfaces/AddressGoogleType'
 import { UserRepositoryMongoose } from '../repositories/UserRepositoryMongoose'
+import { IFilterProps } from '../interfaces/IFilterProps'
 
 class EventUseCase {
   private eventRepository: EventRepository
@@ -41,21 +42,25 @@ class EventUseCase {
 
   async findEventByLocation(latitude: string, longitude: string) {
     const cityName = await this.getCityNameByCoordinates(latitude, longitude)
-    const findEventsByCity = await this.eventRepository.findEventsByCity(
-      cityName.city,
-    )
-
-    const eventWithRadius = findEventsByCity.filter((event: Event) => {
-      const distance = this.calculateDistance(
-        Number(latitude),
-        Number(longitude),
-        Number(event.location.latitude),
-        Number(event.location.longitude),
+    try {
+      const findEventsByCity = await this.eventRepository.findEventsByCity(
+        cityName.city,
       )
 
-      return distance <= 3
-    })
-    return eventWithRadius
+      const eventWithRadius = findEventsByCity.filter((event) => {
+        const distance = this.calculateDistance(
+          Number(latitude),
+          Number(longitude),
+          Number(event.location.latitude),
+          Number(event.location.longitude),
+        )
+
+        return distance <= 100
+      })
+      return eventWithRadius
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   async findEventsByCategory(category: string) {
@@ -64,21 +69,24 @@ class EventUseCase {
     return events
   }
 
-  async filterEvents(
-    category: string,
-    latitude: number,
-    longitude: number,
-    name: string,
-    date: string,
-    price: string,
-    radius: string,
-  ) {
-    const events = await this.eventRepository.findEventByFilter(
+  async filterEvents({
+    category,
+    latitude,
+    longitude,
+    name,
+    date,
+    price,
+    radius,
+  }: IFilterProps) {
+    const events = await this.eventRepository.findEventByFilter({
       category,
+      latitude,
+      longitude,
       name,
-      new Date(date),
+      date,
       price,
-    )
+      radius,
+    })
     return events
   }
 

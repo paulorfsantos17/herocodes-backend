@@ -15,6 +15,7 @@ class Event {
   public city: string
   public categories: string[]
   public formattedAddress: string
+  public map: string
 
   constructor(
     title: string,
@@ -29,6 +30,7 @@ class Event {
     flyers: string[],
     categories: string[],
     formattedAddress: string,
+    map: string,
   ) {
     this.title = title
     this.banner = banner
@@ -42,6 +44,7 @@ class Event {
     this.flyers = flyers
     this.categories = categories
     this.formattedAddress = formattedAddress
+    this.map = map
   }
 }
 
